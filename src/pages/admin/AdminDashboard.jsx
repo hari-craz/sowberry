@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AdminLayout from '../../components/AdminLayout';
-import { adminApi } from '../../utils/api';
+import { adminApi, API_BASE } from '../../utils/api';
 import Swal, { getSwalOpts } from '../../utils/swal';
 import { useAuth } from '../../context/AuthContext';
 
@@ -12,7 +12,7 @@ const AdminDashboard = () => {
   const [activeLearnersCount, setActiveLearnersCount] = useState(0);
   const [uploadInfo, setUploadInfo] = useState({ count: 0, totalSize: 0, files: [] });
   const [downloadingUploads, setDownloadingUploads] = useState(false);
-  
+
   const studentsChartRef = useRef(null);
   const mentorChartRef = useRef(null);
   const completionChartRef = useRef(null);
@@ -20,16 +20,30 @@ const AdminDashboard = () => {
   // Initialize charts and counters
   useEffect(() => {
     const fetchDashboard = async () => {
-      const res = await adminApi.getDashboard();
-      if (res.success) {
-        setStats(res.stats || {});
+      try {
+        const res = await adminApi.getDashboard();
+        if (res.success) {
+          setStats(res.stats || {});
+        } else {
+          console.error('Failed to fetch dashboard stats:', res.message);
+        }
+      } catch (error) {
+        console.error('Dashboard fetch error:', error);
       }
     };
     fetchDashboard();
 
     const fetchUploads = async () => {
-      const res = await adminApi.listUploads();
-      if (res.success) setUploadInfo({ count: res.count || 0, totalSize: res.totalSize || 0, files: res.files || [] });
+      try {
+        const res = await adminApi.listUploads();
+        if (res.success) {
+          setUploadInfo({ count: res.count || 0, totalSize: res.totalSize || 0, files: res.files || [] });
+        } else {
+          console.error('Failed to fetch uploads:', res.message);
+        }
+      } catch (error) {
+        console.error('Uploads fetch error:', error);
+      }
     };
     fetchUploads();
 
@@ -162,7 +176,7 @@ const AdminDashboard = () => {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     } catch (err) {
-      Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Download Failed', text: err.message});
+      Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Download Failed', text: err.message });
     } finally {
       setDownloadingUploads(false);
     }
@@ -318,7 +332,12 @@ const AdminDashboard = () => {
               {uploadInfo.files.slice(0, 12).map((file, idx) => (
                 <div key={idx} className="group relative">
                   <div className="aspect-square rounded-xl overflow-hidden bg-cream dark-theme:bg-gray-800 border border-sand dark-theme:border-gray-700">
-                    <img src={`http://localhost:5000/uploads/profiles/${file.name}`} alt={file.name} className="w-full h-full object-cover" />
+                    <img
+                      src={`${API_BASE.replace(/\/api$/, '')}/uploads/profiles/${file.name}`}
+                      alt={file.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => { e.target.src = 'https://via.placeholder.com/150?text=Error'; }}
+                    />
                   </div>
                   <p className="text-[10px] text-gray-500 mt-1 truncate">{file.name}</p>
                 </div>
