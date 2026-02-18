@@ -1,10 +1,11 @@
-FROM node:18-alpine
+FROM node:lts-alpine
 
 WORKDIR /app
 
 # Copy package.json and install dependencies
 COPY package*.json ./
-RUN npm install --production
+# Use npm ci for reproducible builds
+RUN npm ci --omit=dev
 
 # Copy source code
 COPY . .

@@ -1,19 +1,21 @@
 # Build Stage
-FROM node:18-alpine as build
+FROM node:lts-alpine as build
+
+# Increase memory limit for node process
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package.json and package-lock.json first for caching
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies using npm ci for cleaner builds
+RUN npm ci
 
 # Copy source code
 COPY . .
 
-# Environment variable for build (Vite requires env vars during build for static replacement)
-# For Nginx proxy setup, we set API_URL to "/api" so browser requests go to Nginx first
+# Environment variable for build
 ENV VITE_API_URL=/api
 
 # Build the application
