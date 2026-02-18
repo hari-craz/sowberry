@@ -212,7 +212,7 @@ const AuthPage = () => {
     const file = e.target.files[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) {
-      Swal.fire({ ...getSwalOpts(), icon: 'warning', title: 'File Too Large', text: 'Max file size is 5MB'});
+      Swal.fire({ ...getSwalOpts(), icon: 'warning', title: 'File Too Large', text: 'Max file size is 5MB' });
       return;
     }
     const reader = new FileReader();
@@ -439,11 +439,11 @@ const AuthPage = () => {
 
   const handleOTPChange = (index, value) => {
     if (!/^\d*$/.test(value)) return;
-    
+
     const newOTP = [...forgotData.otp];
     newOTP[index] = value;
     setForgotData(prev => ({ ...prev, otp: newOTP }));
-    
+
     if (value && index < 5) {
       const nextInput = document.querySelectorAll('.otp-input')[index + 1];
       if (nextInput) nextInput.focus();
@@ -477,14 +477,14 @@ const AuthPage = () => {
       const res = await authApi.login({ username: loginData.username, password: loginData.password });
       if (res.success) {
         login(res.token, res.user);
-        await Swal.fire({ ...getSwalOpts(), icon: 'success', title: 'Welcome back!', text: `Logged in as ${res.user.fullName}`, timer: 1500, showConfirmButton: false});
+        await Swal.fire({ ...getSwalOpts(), icon: 'success', title: 'Welcome back!', text: `Logged in as ${res.user.fullName}`, timer: 1500, showConfirmButton: false });
         const path = res.user.role === 'admin' ? '/admin' : res.user.role === 'mentor' ? '/mentor' : '/student';
         navigate(path);
       } else {
-        Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Login Failed', text: res.message || 'Invalid credentials'});
+        Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Login Failed', text: res.message || 'Invalid credentials' });
       }
     } catch {
-      Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: 'Something went wrong. Please try again.'});
+      Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: 'Something went wrong. Please try again.' });
     } finally {
       setIsSubmitting(false);
     }
@@ -495,13 +495,13 @@ const AuthPage = () => {
     if (isSubmitting) return;
     // Validate step 4 fields
     if (!registerData.username || registerData.username.length < 4) {
-      Swal.fire({ ...getSwalOpts(), icon: 'warning', title: 'Invalid Username', text: 'Username must be at least 4 characters'}); return;
+      Swal.fire({ ...getSwalOpts(), icon: 'warning', title: 'Invalid Username', text: 'Username must be at least 4 characters' }); return;
     }
     if (!pwChecks.length || !pwChecks.upper || !pwChecks.lower || !pwChecks.number || !pwChecks.special) {
-      Swal.fire({ ...getSwalOpts(), icon: 'warning', title: 'Weak Password', text: 'Password must meet all requirements'}); return;
+      Swal.fire({ ...getSwalOpts(), icon: 'warning', title: 'Weak Password', text: 'Password must meet all requirements' }); return;
     }
     if (!pwChecks.match) {
-      Swal.fire({ ...getSwalOpts(), icon: 'warning', title: 'Mismatch', text: 'Passwords do not match'}); return;
+      Swal.fire({ ...getSwalOpts(), icon: 'warning', title: 'Mismatch', text: 'Passwords do not match' }); return;
     }
     setIsSubmitting(true);
     try {
@@ -534,14 +534,14 @@ const AuthPage = () => {
         profileImage: profileImageUrl
       });
       if (res.success) {
-        await Swal.fire({ ...getSwalOpts(), icon: 'success', title: 'Account Created!', text: 'You can now sign in with your credentials.'});
+        await Swal.fire({ ...getSwalOpts(), icon: 'success', title: 'Account Created!', text: 'You can now sign in with your credentials.' });
         setRegisterStep(1);
         toggleForm('login');
       } else {
-        Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Registration Failed', text: res.message || 'Could not create account'});
+        Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Registration Failed', text: res.message || 'Could not create account' });
       }
     } catch {
-      Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: 'Something went wrong. Please try again.'});
+      Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: 'Something went wrong. Please try again.' });
     } finally {
       setIsSubmitting(false);
     }
@@ -556,13 +556,13 @@ const AuthPage = () => {
     try {
       const res = await authApi.forgotPassword({ email });
       if (res.success) {
-        await Swal.fire({ ...getSwalOpts(), icon: 'info', title: 'OTP Sent', text: res.message || 'Check your email for the OTP code.'});
+        await Swal.fire({ ...getSwalOpts(), icon: 'info', title: 'OTP Sent', text: res.message || 'Check your email for the OTP code.' });
         setForgotStep(2);
       } else {
-        Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: res.message || 'Could not send OTP'});
+        Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: res.message || 'Could not send OTP' });
       }
     } catch {
-      Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: 'Network error. Try again.'});
+      Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: 'Network error. Try again.' });
     } finally {
       setIsSubmitting(false);
     }
@@ -577,13 +577,13 @@ const AuthPage = () => {
     try {
       const res = await authApi.verifyOtp({ email: forgotData.email, otp });
       if (res.success) {
-        await Swal.fire({ ...getSwalOpts(), icon: 'success', title: 'OTP Verified!', text: 'Set your new password.', timer: 1500, showConfirmButton: false});
+        await Swal.fire({ ...getSwalOpts(), icon: 'success', title: 'OTP Verified!', text: 'Set your new password.', timer: 1500, showConfirmButton: false });
         setForgotStep(3);
       } else {
-        Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Invalid OTP', text: res.message || 'Please check and try again.'});
+        Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Invalid OTP', text: res.message || 'Please check and try again.' });
       }
     } catch {
-      Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: 'Network error.'});
+      Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: 'Network error.' });
     } finally {
       setIsSubmitting(false);
     }
@@ -593,11 +593,11 @@ const AuthPage = () => {
     e.preventDefault();
     if (isSubmitting) return;
     if (forgotData.newPassword !== forgotData.confirmPassword) {
-      Swal.fire({ ...getSwalOpts(), icon: 'warning', title: 'Mismatch', text: 'Passwords do not match!'});
+      Swal.fire({ ...getSwalOpts(), icon: 'warning', title: 'Mismatch', text: 'Passwords do not match!' });
       return;
     }
     if (forgotData.newPassword.length < 6) {
-      Swal.fire({ ...getSwalOpts(), icon: 'warning', title: 'Too Short', text: 'Password must be at least 6 characters.'});
+      Swal.fire({ ...getSwalOpts(), icon: 'warning', title: 'Too Short', text: 'Password must be at least 6 characters.' });
       return;
     }
     setIsSubmitting(true);
@@ -605,13 +605,13 @@ const AuthPage = () => {
       const otp = forgotData.otp.join('');
       const res = await authApi.resetPassword({ email: forgotData.email, otp, newPassword: forgotData.newPassword });
       if (res.success) {
-        await Swal.fire({ ...getSwalOpts(), icon: 'success', title: 'Password Reset!', text: 'You can now sign in with your new password.'});
+        await Swal.fire({ ...getSwalOpts(), icon: 'success', title: 'Password Reset!', text: 'You can now sign in with your new password.' });
         toggleForm('login');
       } else {
-        Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: res.message || 'Could not reset password.'});
+        Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: res.message || 'Could not reset password.' });
       }
     } catch {
-      Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: 'Network error.'});
+      Swal.fire({ ...getSwalOpts(), icon: 'error', title: 'Error', text: 'Network error.' });
     } finally {
       setIsSubmitting(false);
     }
@@ -724,7 +724,7 @@ const AuthPage = () => {
                 {/* Step Indicator */}
                 <div className="px-6 pt-4 pb-2">
                   <div className="flex items-center justify-between mb-4">
-                    {[{n:1,l:'Personal',icon:'ri-user-line'},{n:2,l:'Details',icon:'ri-file-list-line'},{n:3,l:'Photo',icon:'ri-camera-line'},{n:4,l:'Security',icon:'ri-lock-line'}].map((s, i) => (
+                    {[{ n: 1, l: 'Personal', icon: 'ri-user-line' }, { n: 2, l: 'Details', icon: 'ri-file-list-line' }, { n: 3, l: 'Photo', icon: 'ri-camera-line' }, { n: 4, l: 'Security', icon: 'ri-lock-line' }].map((s, i) => (
                       <React.Fragment key={s.n}>
                         <button type="button"
                           onClick={() => {
@@ -762,102 +762,101 @@ const AuthPage = () => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="relative">
                           <label className="text-xs font-medium text-gray-600 dark-theme:text-gray-400 mb-1.5 block tracking-wide">College <span className="text-primary">*</span></label>
-                        <div className="relative">
-                          <i className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm transition-all duration-300 ${
-                            registerData.college
-                              ? 'ri-checkbox-circle-fill text-green-500'
-                              : collegeSearch
-                                ? 'ri-search-line text-primary animate-pulse'
-                                : 'ri-search-line text-gray-400 dark-theme:text-gray-500'
-                          }`}></i>
-                          <input
-                            ref={collegeInputRef}
-                            type="text"
-                            placeholder="Search your college..."
-                            value={collegeSearch || registerData.college}
-                            onChange={(e) => {
-                              setCollegeSearch(e.target.value);
-                              setRegisterData(prev => ({ ...prev, college: '', rollNumber: '' }));
-                              if (e.target.value.trim().length >= 2) setShowCollegeDropdown(true);
-                            }}
-                            onFocus={() => { if (collegeSearch.trim().length >= 2 && collegeResults.length) setShowCollegeDropdown(true); }}
-                            className={`w-full pl-9 pr-9 py-2.5 rounded-xl bg-cream dark-theme:bg-gray-800 border outline-none text-sm text-gray-700 dark-theme:text-gray-200 placeholder-gray-400 dark-theme:placeholder-gray-500 transition-all duration-300 ${
-                              registerData.college
-                                ? 'border-green-400 dark-theme:border-green-500 ring-1 ring-green-200 dark-theme:ring-green-500/20'
+                          <div className="relative">
+                            <i className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm transition-all duration-300 ${registerData.college
+                                ? 'ri-checkbox-circle-fill text-green-500'
                                 : collegeSearch
-                                  ? 'border-primary ring-1 ring-primary/20'
-                                  : 'border-sand dark-theme:border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary/20'
-                            }`}
-                            autoComplete="off"
-                          />
-                          {collegeLoading && (
-                            <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                              <i className="ri-loader-4-line animate-spin text-primary text-sm"></i>
+                                  ? 'ri-search-line text-primary animate-pulse'
+                                  : 'ri-search-line text-gray-400 dark-theme:text-gray-500'
+                              }`}></i>
+                            <input
+                              ref={collegeInputRef}
+                              type="text"
+                              placeholder="Search your college..."
+                              value={collegeSearch || registerData.college}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setCollegeSearch(val);
+                                // Allow manual entry - set college to typed value
+                                setRegisterData(prev => ({ ...prev, college: val, rollNumber: '' }));
+                                if (val.trim().length >= 2) setShowCollegeDropdown(true);
+                              }}
+                              onFocus={() => { if (collegeSearch.trim().length >= 2 && collegeResults.length) setShowCollegeDropdown(true); }}
+                              className={`w-full pl-9 pr-9 py-2.5 rounded-xl bg-cream dark-theme:bg-gray-800 border outline-none text-sm text-gray-700 dark-theme:text-gray-200 placeholder-gray-400 dark-theme:placeholder-gray-500 transition-all duration-300 ${registerData.college
+                                  ? 'border-green-400 dark-theme:border-green-500 ring-1 ring-green-200 dark-theme:ring-green-500/20'
+                                  : collegeSearch
+                                    ? 'border-primary ring-1 ring-primary/20'
+                                    : 'border-sand dark-theme:border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary/20'
+                                }`}
+                              autoComplete="off"
+                            />
+                            {collegeLoading && (
+                              <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                <i className="ri-loader-4-line animate-spin text-primary text-sm"></i>
+                              </div>
+                            )}
+                            {registerData.college && !collegeLoading && (
+                              <button type="button" onClick={() => { setRegisterData(prev => ({ ...prev, college: '', rollNumber: '' })); setCollegeSearch(''); }}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark-theme:hover:text-gray-300 transition-colors cursor-pointer">
+                                <i className="ri-close-circle-line text-sm"></i>
+                              </button>
+                            )}
+                          </div>
+                          {showCollegeDropdown && collegeResults.length > 0 && (
+                            <div ref={collegeDropdownRef} className="absolute z-50 w-full mt-1 max-h-48 overflow-y-auto rounded-xl bg-white dark-theme:bg-gray-800 border border-sand dark-theme:border-gray-700 shadow-lg">
+                              {collegeResults.map((c, i) => (
+                                <button
+                                  key={i}
+                                  type="button"
+                                  onClick={() => {
+                                    setRegisterData(prev => ({ ...prev, college: c }));
+                                    setCollegeSearch('');
+                                    setShowCollegeDropdown(false);
+                                    setCollegeResults([]);
+                                  }}
+                                  className="w-full text-left px-4 py-2 text-sm text-gray-700 dark-theme:text-gray-200 hover:bg-primary/10 dark-theme:hover:bg-primary/20 transition-colors cursor-pointer flex items-center gap-2"
+                                >
+                                  <i className="ri-building-2-line text-xs text-gray-400"></i>
+                                  {c}
+                                </button>
+                              ))}
                             </div>
                           )}
-                          {registerData.college && !collegeLoading && (
-                            <button type="button" onClick={() => { setRegisterData(prev => ({ ...prev, college: '', rollNumber: '' })); setCollegeSearch(''); }}
-                              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark-theme:hover:text-gray-300 transition-colors cursor-pointer">
-                              <i className="ri-close-circle-line text-sm"></i>
-                            </button>
+                          {showCollegeDropdown && !collegeLoading && collegeSearch.trim().length >= 2 && collegeResults.length === 0 && (
+                            <div ref={collegeDropdownRef} className="absolute z-50 w-full mt-1 rounded-xl bg-white dark-theme:bg-gray-800 border border-sand dark-theme:border-gray-700 shadow-lg px-4 py-3 text-sm text-gray-400">
+                              No colleges found
+                            </div>
                           )}
-                        </div>
-                        {showCollegeDropdown && collegeResults.length > 0 && (
-                          <div ref={collegeDropdownRef} className="absolute z-50 w-full mt-1 max-h-48 overflow-y-auto rounded-xl bg-white dark-theme:bg-gray-800 border border-sand dark-theme:border-gray-700 shadow-lg">
-                            {collegeResults.map((c, i) => (
-                              <button
-                                key={i}
-                                type="button"
-                                onClick={() => {
-                                  setRegisterData(prev => ({ ...prev, college: c }));
-                                  setCollegeSearch('');
-                                  setShowCollegeDropdown(false);
-                                  setCollegeResults([]);
-                                }}
-                                className="w-full text-left px-4 py-2 text-sm text-gray-700 dark-theme:text-gray-200 hover:bg-primary/10 dark-theme:hover:bg-primary/20 transition-colors cursor-pointer flex items-center gap-2"
-                              >
-                                <i className="ri-building-2-line text-xs text-gray-400"></i>
-                                {c}
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                        {showCollegeDropdown && !collegeLoading && collegeSearch.trim().length >= 2 && collegeResults.length === 0 && (
-                          <div ref={collegeDropdownRef} className="absolute z-50 w-full mt-1 rounded-xl bg-white dark-theme:bg-gray-800 border border-sand dark-theme:border-gray-700 shadow-lg px-4 py-3 text-sm text-gray-400">
-                            No colleges found
-                          </div>
-                        )}
                         </div>
                         <div className="relative">
                           <label className="text-xs font-medium text-gray-600 dark-theme:text-gray-400 mb-1.5 block tracking-wide">Department <span className="text-primary">*</span></label>
                           <div className="relative">
-                            <i className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm transition-all duration-300 ${
-                              registerData.department
+                            <i className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm transition-all duration-300 ${registerData.department
                                 ? 'ri-checkbox-circle-fill text-green-500'
                                 : deptSearch
                                   ? 'ri-search-line text-primary animate-pulse'
                                   : 'ri-search-line text-gray-400 dark-theme:text-gray-500'
-                            }`}></i>
+                              }`}></i>
                             <input
                               ref={deptInputRef}
                               type="text"
                               placeholder="Search department..."
                               value={deptSearch || selectedDeptLabel}
                               onChange={(e) => {
-                                setDeptSearch(e.target.value);
+                                const val = e.target.value;
+                                setDeptSearch(val);
                                 setSelectedDeptLabel('');
-                                // Clear department so roll number recalculates
-                                setRegisterData(prev => ({ ...prev, department: '', ...(isMKC ? { rollNumber: '' } : {}) }));
-                                if (e.target.value.trim().length >= 2) setShowDeptDropdown(true);
+                                // Allow manual entry - set department to typed value. For MKC, roll number generation might fail if code doesn't match, which is expected for manual entry.
+                                setRegisterData(prev => ({ ...prev, department: val, ...(isMKC ? { rollNumber: '' } : {}) }));
+                                if (val.trim().length >= 2) setShowDeptDropdown(true);
                               }}
                               onFocus={() => { if (deptSearch.trim().length >= 2 && deptResults.length) setShowDeptDropdown(true); }}
-                              className={`w-full pl-9 pr-9 py-2.5 rounded-xl bg-cream dark-theme:bg-gray-800 border outline-none text-sm text-gray-700 dark-theme:text-gray-200 placeholder-gray-400 dark-theme:placeholder-gray-500 transition-all duration-300 ${
-                                registerData.department
+                              className={`w-full pl-9 pr-9 py-2.5 rounded-xl bg-cream dark-theme:bg-gray-800 border outline-none text-sm text-gray-700 dark-theme:text-gray-200 placeholder-gray-400 dark-theme:placeholder-gray-500 transition-all duration-300 ${registerData.department
                                   ? 'border-green-400 dark-theme:border-green-500 ring-1 ring-green-200 dark-theme:ring-green-500/20'
                                   : deptSearch
                                     ? 'border-primary ring-1 ring-primary/20'
                                     : 'border-sand dark-theme:border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary/20'
-                              }`}
+                                }`}
                               autoComplete="off"
                             />
                             {deptLoading && (
