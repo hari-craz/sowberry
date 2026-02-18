@@ -1,0 +1,348 @@
+@import "tailwindcss";
+
+/* Google Sans font-face declarations */
+@font-face {
+  font-family: "Google Sans";
+  src: url("/fonts/GoogleSans-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Google Sans";
+  src: url("/fonts/GoogleSans-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Google Sans";
+  src: url("/fonts/GoogleSans-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Custom dark-theme variant for .dark-theme class on body */
+@custom-variant dark-theme (.dark-theme &);
+
+/* Improve touch responsiveness — hint browser that touch handlers are passive */
+iframe {
+  touch-action: pan-x pan-y;
+}
+/* Claude-inspired dark theme — gold/sand accent */
+@theme {
+  /* Gold/sand accent — Claude's signature tone */
+  --color-primary: #d4a574;
+  --color-primary-dark: #c4956a;
+  --color-primary-light: #e8c9a8;
+
+  /* Warm complementary */
+  --color-secondary: #a78058;
+  --color-accent: #d4a574;
+  --color-success: #22c55e;
+  --color-warning: #eab308;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Warm light palette */
+  --color-cream: #f9f6f1;
+  --color-cream-dark: #f0ebe3;
+  --color-sand: #e8e0d4;
+
+  /* Claude palette — warm organic tones for decorative elements */
+  --color-peach: #f0c4a8;
+  --color-blush: #e8c9a8;
+  --color-terracotta: #d4a574;
+  --color-amber: #d4a843;
+  --color-sage: #a8c4a0;
+  --color-clay: #b8886e;
+  --color-linen: #f5ede3;
+  --color-sienna: #a0522d;
+
+  /* Claude dark gray scale — deeper, true-dark tones */
+  --color-dark: #0f0f0f;
+  --color-gray-950: #0f0f0f;
+  --color-gray-900: #1a1a1a;
+  --color-gray-800: #2a2a2a;
+  --color-gray-700: #333333;
+  --color-gray-600: #555555;
+  --color-gray-500: #888888;
+  --color-gray-400: #aaaaaa;
+  --color-gray-300: #cccccc;
+  --color-gray-200: #e5e5e5;
+  --color-gray-100: #e8e8e8;
+  --color-gray-50: #f5f5f5;
+
+  --font-sans: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Custom cursors */
+@layer base {
+  /* Default cursor for everything */
+  *,
+  *::before,
+  *::after {
+    cursor: url('/cursors/cursor.png'), auto;
+  }
+
+  /* Pointer cursor for all interactive / clickable elements */
+  a,
+  button,
+  [role="button"],
+  input[type="submit"],
+  input[type="reset"],
+  input[type="button"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select,
+  label[for],
+  summary,
+  [onclick],
+  .cursor-pointer {
+    cursor: url('/cursors/poniter-cursor.png'), pointer !important;
+  }
+
+  /* Hover state cursor */
+  a:hover,
+  button:hover,
+  [role="button"]:hover,
+  input[type="submit"]:hover,
+  input[type="reset"]:hover,
+  input[type="button"]:hover,
+  select:hover,
+  label[for]:hover,
+  summary:hover,
+  .cursor-pointer:hover {
+    cursor: url('/cursors/cursor-hover.png'), pointer !important;
+  }
+
+  /* Text inputs keep the text cursor */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="search"],
+  input[type="url"],
+  textarea,
+  [contenteditable="true"] {
+    cursor: url('/cursors/cursor.png'), text !important;
+  }
+}
+
+/* Base styles */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    @apply bg-cream text-gray-800 antialiased;
+    letter-spacing: -0.01em;
+  }
+
+  body.dark-theme {
+    @apply bg-gray-950 text-gray-300;
+  }
+
+  /* Scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .dark-theme ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+  }
+
+  .dark-theme ::-webkit-scrollbar-thumb {
+    @apply bg-gray-700;
+  }
+}
+
+/* Utility layer */
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-sand;
+  }
+
+  .dark-theme .glass {
+    @apply bg-gray-900/70 border-gray-800;
+  }
+
+  .card-claude {
+    @apply bg-white border border-sand rounded-2xl;
+  }
+
+  .dark-theme .card-claude {
+    @apply bg-gray-900 border-gray-800;
+  }
+}
+
+/* Animation keyframes */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 16px rgba(212, 165, 116, 0.2); }
+  50% { box-shadow: 0 0 32px rgba(212, 165, 116, 0.35); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-float-delay {
+  animation: float 3s ease-in-out infinite 0.5s;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Hero gradient orbs */
+@keyframes orb-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(12px, -18px) scale(1.04); }
+  66% { transform: translate(-8px, 10px) scale(0.97); }
+}
+
+@keyframes orb-drift-reverse {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-14px, 12px) scale(0.96); }
+  66% { transform: translate(10px, -16px) scale(1.03); }
+}
+
+@keyframes shimmer {
+  0% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.5; }
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-scroll-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.hero-marquee {
+  animation: marquee-scroll 30s linear infinite;
+}
+
+.hero-marquee-reverse {
+  animation: marquee-scroll-reverse 35s linear infinite;
+}
+
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.45;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.dark-theme .hero-orb {
+  opacity: 0.15;
+  filter: blur(80px);
+}
+
+.hero-orb-1 {
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, var(--color-peach) 0%, transparent 70%);
+  animation: orb-drift 14s ease-in-out infinite;
+}
+
+.hero-orb-2 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--color-sage) 0%, transparent 70%);
+  animation: orb-drift-reverse 18s ease-in-out infinite;
+}
+
+.hero-orb-3 {
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, var(--color-amber) 0%, transparent 70%);
+  animation: orb-drift 20s ease-in-out infinite 2s;
+}
+
+.hero-orb-4 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--color-blush) 0%, transparent 70%);
+  animation: orb-drift-reverse 16s ease-in-out infinite 1s;
+}
+
+.hero-orb-5 {
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, var(--color-linen) 0%, transparent 70%);
+  animation: orb-drift 22s ease-in-out infinite 3s;
+}
+
+.hero-grid-line {
+  position: absolute;
+  background: var(--color-sand);
+  opacity: 0.3;
+}
+
+.dark-theme .hero-grid-line {
+  background: var(--color-gray-800);
+  opacity: 0.15;
+}
+
+/* CodeMirror Editor Styles */
+.codemirror-editor-wrapper .cm-editor {
+  height: 40vh;
+  border-radius: 0 0 1rem 1rem;
+  outline: none !important;
+}
+.codemirror-editor-wrapper .cm-editor.cm-focused {
+  outline: none !important;
+}
+.codemirror-editor-wrapper .cm-scroller {
+  overflow: auto;
+  font-family: "Fira Code", "JetBrains Mono", "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}

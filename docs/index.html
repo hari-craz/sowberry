@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon | Sowberry </title>
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet" />
+    
+    <style>
+        /* 
+         * DASHBOARD THEME & VARIABLES
+         * MIMICKING src/index.css
+         */
+        :root {
+            /* Claude-inspired Palette */
+            --color-primary: #d4a574;       /* Gold/Sand */
+            --color-primary-dark: #c4956a;
+            --color-primary-light: #e8c9a8;
+            
+            --color-secondary: #a78058;     /* Warm complementary */
+            
+            --color-cream: #f9f6f1;         /* Light Background */
+            --color-cream-dark: #f0ebe3;
+            --color-sand: #e8e0d4;          /* Borders */
+            
+            --color-peach: #f0c4a8;
+            --color-sage: #a8c4a0;
+            --color-amber: #d4a843;
+            --color-blush: #e8c9a8;
+            
+            --color-dark: #0f0f0f;
+            --color-gray-800: #2a2a2a;
+            --color-gray-600: #555555;
+            
+            --font-sans: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: 1px solid var(--color-sand);
+            --glass-shadow: 0 8px 32px rgba(212, 165, 116, 0.1);
+        }
+
+        /* Font Faces - Attempting to load from local public/fonts if available, else fallback */
+        @font-face {
+            font-family: 'Google Sans';
+            src: url('/fonts/GoogleSans-Regular.woff') format('woff');
+            font-weight: 400;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Google Sans';
+            src: url('/fonts/GoogleSans-Medium.woff') format('woff');
+            font-weight: 500;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Google Sans';
+            src: url('/fonts/GoogleSans-Bold.woff') format('woff');
+            font-weight: 700;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-cream);
+            color: var(--color-gray-800);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* For the background orbs */
+            position: relative;
+        }
+
+        /* Background Orbs Animation */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px); /* Increased blur for softer look */
+            opacity: 0.4;
+            z-index: 0;
+            animation: orb-float 20s infinite ease-in-out;
+        }
+        
+        .orb-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: var(--color-peach);
+            animation-delay: 0s;
+        }
+        
+        .orb-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: var(--color-sage);
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            top: 40%;
+            left: 40%;
+            width: 30vw;
+            height: 30vw;
+            background: var(--color-amber);
+            opacity: 0.2;
+            animation-delay: -10s;
+        }
+
+        @keyframes orb-float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 800px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: 24px;
+            padding: 4rem 2rem;
+            box-shadow: var(--glass-shadow);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Content Styling */
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            font-size: 1.75rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: -webkit-linear-gradient(45deg, var(--color-primary-dark), var(--color-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.03em;
+        }
+
+        p.subtitle {
+            font-size: 1.25rem;
+            color: var(--color-gray-600);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* Countdown Grid */
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--color-sand);
+            border-radius: 16px;
+            padding: 1.5rem 0.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .countdown-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(212, 165, 116, 0.15);
+            border-color: var(--color-primary-light);
+        }
+
+        .countdown-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+            line-height: 1;
+            margin-bottom: 0.25rem;
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+
+        .countdown-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-secondary);
+        }
+
+        /* Buttons / Interaction */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--color-primary);
+            color: white;
+            border-radius: 99px; /* Pill shape */
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.4);
+        }
+
+        .btn:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(212, 165, 116, 0.5);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            margin-left: 1rem;
+            box-shadow: none;
+        }
+        
+        .btn-outline:hover {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 3rem;
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        
+        .footer a {
+            color: var(--color-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer a:hover {
+            color: var(--color-primary-dark);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .glass-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .countdown {
+                grid-template-columns: repeat(2, 1fr); /* 2x2 grid on mobile */
+                gap: 1rem;
+            }
+            
+            .countdown-value {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 0.75rem;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+            }
+            
+            .buttons {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+        <div class="glass-card">
+            <div class="logo">
+                <i class="ri-school-fill"></i> Sowberry 
+            </div>
+            
+            <h1>We're Coming Soon</h1>
+            <p class="subtitle">
+                We're building an extraordinary learning experience just for you. 
+                Get ready to unlock your potential.
+            </p>
+
+            <!-- Countdown Timer -->
+            <div id="countdown" class="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-value" id="days">00</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="hours">00</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="minutes">00</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="seconds">00</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a href="#" class="btn">
+                    <i class="ri-notification-3-line"></i> Notify Me
+                </a>
+                <a href="mailto:contact@sowberry.com" class="btn btn-outline">
+                    <i class="ri-mail-send-line"></i> Contact Us
+                </a>
+            </div>
+
+            <div class="footer">
+                <span>&copy; 2026 Sowberry </span>
+                <div class="socials">
+                    <a href="#"><i class="ri-twitter-x-line"></i></a>
+                    <a href="#"><i class="ri-instagram-line"></i></a>
+                    <a href="#"><i class="ri-linkedin-fill"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Countdown Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Target Date: 20-02-2026 Evening 6 PM (18:00:00)
+            // Month is 0-indexed in JS Date constructor (0 = Jan, 1 = Feb)
+            // But string parsing is easier. 
+            // "February 20, 2026 18:00:00" works well in most browsers.
+            const targetDate = new Date("February 20, 2026 18:00:00").getTime();
+
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if (distance < 0) {
+                    // Timer finished
+                    daysEl.innerText = "00";
+                    hoursEl.innerText = "00";
+                    minutesEl.innerText = "00";
+                    secondsEl.innerText = "00";
+                    document.querySelector('.subtitle').innerText = "We have arrived! Refresh to enter.";
+                    return;
+                }
+
+                // Time calculations
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Update DOM with leading zeros
+                daysEl.innerText = days < 10 ? '0' + days : days;
+                hoursEl.innerText = hours < 10 ? '0' + hours : hours;
+                minutesEl.innerText = minutes < 10 ? '0' + minutes : minutes;
+                secondsEl.innerText = seconds < 10 ? '0' + seconds : seconds;
+            }
+
+            // Initial call
+            updateCountdown();
+            // Update every second
+            setInterval(updateCountdown, 1000);
+        });
+    </script>
+</body>
+</html>
