@@ -189,8 +189,8 @@ const AuthPage = () => {
     }
 
     if (name === 'rollNumber') {
-      if (isMKC) {
-        // Enforce prefix lock for MKC — user cannot delete the auto-generated prefix
+      if (isMKC && generateRollPrefix()) {
+        // Enforce prefix lock for MKC — user cannot delete the auto-generated prefix IF it exists
         const currentPrefix = generateRollPrefix();
         if (currentPrefix && !value.startsWith(currentPrefix)) return;
         if (value.length > 12) return;
@@ -402,9 +402,11 @@ const AuthPage = () => {
     return dCode ? yCode + dCode : '';
   };
 
-  // Roll number validity: MKC = 12 chars, others = at least 1 char
-  const isRollNumberValid = isMKC ? registerData.rollNumber.length === 12 : registerData.rollNumber.trim().length > 0;
   const rollPrefix = generateRollPrefix();
+
+  // Roll number validity: MKC with known prefix = 12 chars; Others = at least 1 char
+  // If isMKC but no prefix (manual dept), fallback to simple length check
+  const isRollNumberValid = (isMKC && rollPrefix) ? registerData.rollNumber.length === 12 : registerData.rollNumber.trim().length > 0;
 
   // Password strength
   const pwChecks = {
@@ -764,10 +766,10 @@ const AuthPage = () => {
                           <label className="text-xs font-medium text-gray-600 dark-theme:text-gray-400 mb-1.5 block tracking-wide">College <span className="text-primary">*</span></label>
                           <div className="relative">
                             <i className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm transition-all duration-300 ${registerData.college
-                                ? 'ri-checkbox-circle-fill text-green-500'
-                                : collegeSearch
-                                  ? 'ri-search-line text-primary animate-pulse'
-                                  : 'ri-search-line text-gray-400 dark-theme:text-gray-500'
+                              ? 'ri-checkbox-circle-fill text-green-500'
+                              : collegeSearch
+                                ? 'ri-search-line text-primary animate-pulse'
+                                : 'ri-search-line text-gray-400 dark-theme:text-gray-500'
                               }`}></i>
                             <input
                               ref={collegeInputRef}
@@ -783,10 +785,10 @@ const AuthPage = () => {
                               }}
                               onFocus={() => { if (collegeSearch.trim().length >= 2 && collegeResults.length) setShowCollegeDropdown(true); }}
                               className={`w-full pl-9 pr-9 py-2.5 rounded-xl bg-cream dark-theme:bg-gray-800 border outline-none text-sm text-gray-700 dark-theme:text-gray-200 placeholder-gray-400 dark-theme:placeholder-gray-500 transition-all duration-300 ${registerData.college
-                                  ? 'border-green-400 dark-theme:border-green-500 ring-1 ring-green-200 dark-theme:ring-green-500/20'
-                                  : collegeSearch
-                                    ? 'border-primary ring-1 ring-primary/20'
-                                    : 'border-sand dark-theme:border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary/20'
+                                ? 'border-green-400 dark-theme:border-green-500 ring-1 ring-green-200 dark-theme:ring-green-500/20'
+                                : collegeSearch
+                                  ? 'border-primary ring-1 ring-primary/20'
+                                  : 'border-sand dark-theme:border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary/20'
                                 }`}
                               autoComplete="off"
                             />
@@ -832,10 +834,10 @@ const AuthPage = () => {
                           <label className="text-xs font-medium text-gray-600 dark-theme:text-gray-400 mb-1.5 block tracking-wide">Department <span className="text-primary">*</span></label>
                           <div className="relative">
                             <i className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm transition-all duration-300 ${registerData.department
-                                ? 'ri-checkbox-circle-fill text-green-500'
-                                : deptSearch
-                                  ? 'ri-search-line text-primary animate-pulse'
-                                  : 'ri-search-line text-gray-400 dark-theme:text-gray-500'
+                              ? 'ri-checkbox-circle-fill text-green-500'
+                              : deptSearch
+                                ? 'ri-search-line text-primary animate-pulse'
+                                : 'ri-search-line text-gray-400 dark-theme:text-gray-500'
                               }`}></i>
                             <input
                               ref={deptInputRef}
@@ -852,10 +854,10 @@ const AuthPage = () => {
                               }}
                               onFocus={() => { if (deptSearch.trim().length >= 2 && deptResults.length) setShowDeptDropdown(true); }}
                               className={`w-full pl-9 pr-9 py-2.5 rounded-xl bg-cream dark-theme:bg-gray-800 border outline-none text-sm text-gray-700 dark-theme:text-gray-200 placeholder-gray-400 dark-theme:placeholder-gray-500 transition-all duration-300 ${registerData.department
-                                  ? 'border-green-400 dark-theme:border-green-500 ring-1 ring-green-200 dark-theme:ring-green-500/20'
-                                  : deptSearch
-                                    ? 'border-primary ring-1 ring-primary/20'
-                                    : 'border-sand dark-theme:border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary/20'
+                                ? 'border-green-400 dark-theme:border-green-500 ring-1 ring-green-200 dark-theme:ring-green-500/20'
+                                : deptSearch
+                                  ? 'border-primary ring-1 ring-primary/20'
+                                  : 'border-sand dark-theme:border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary/20'
                                 }`}
                               autoComplete="off"
                             />
